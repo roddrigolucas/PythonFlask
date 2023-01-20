@@ -63,12 +63,12 @@ def filmes(propriedade):
 
 	return render_template("filmes.html",filmes=jsondata['results'])
 
-@app.route('/cursos')
+@app.route('/cursos') ## SELECT- LISTA A TABELA CURSOS
 def lista_cursos():
 	return render_template("cursos.html", cursos=cursos.query.all() )
 
-@app.route('/cria_curso', methods=["GET", "POST"])
-def cria_curso():
+@app.route('/cria_curso', methods=["GET", "POST"]) ## CREATE- INSERE DADOS NO BANCO DE DADOS
+def cria_curso(): 
 	nome = request.form.get('nome')
 	descricao = request.form.get('descricao')
 	ch = request.form.get('ch')
@@ -83,7 +83,7 @@ def cria_curso():
 			return redirect(url_for('lista_cursos'))
 	return render_template("novo_curso.html")
 
-@app.route('/<int:id>/atualiza_curso', methods=["GET", "POST"])
+@app.route('/<int:id>/atualiza_curso', methods=["GET", "POST"])## UPDATE - ATUALIZA REGISTROS 
 def atualiza_curso(id):
 	curso = cursos.query.filter_by(id=id).first()
 	if request.method == 'POST':
@@ -95,6 +95,13 @@ def atualiza_curso(id):
 		db.session.commit()
 		return redirect(url_for('lista_cursos'))
 	return render_template("atualiza_curso.html", curso=curso)
+
+@app.route('/<int:id>/remove_curso') ## DELETE - DELETA REGISTROS
+def remove_curso(id):
+	curso = cursos.query.filter_by(id=id).first()
+	db.session.delete(curso)
+	db.session.commit()
+	return redirect(url_for('lista_cursos'))
 
 if __name__ =="__main__":
 	db.create_all()

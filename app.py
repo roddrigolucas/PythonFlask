@@ -10,7 +10,7 @@ app.config['SECRET_KEY'] = "random string" #NECESSARIO PRO FLASH FUNCIONAR
 
 db = SQLAlchemy(app)
 
-
+#
 frutas = []
 registros = []
 
